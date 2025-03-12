@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href=""
+    
+  </head>
+  <body>
+    <div class="app-container">
+      <h1>DES шифрование</h1>
+      <textarea id="inputText" placeholder="Введите текст"></textarea>
+      <input
+        type="text"
+        id="keyInput"
+        placeholder="Введите ключ (макс. 8 символов)"
+        maxlength="8"
+      />
+      <div class="button-group">
+        <button class="encrypt" id="encryptBtn">Зашифровать</button>
+        <button class="decrypt" id="decryptBtn">Расшифровать</button>
+        <button class="close" id="closeBtn">Закрыть</button>
+      </div>
+      <div class="output" id="outputText">Здесь появится результат</div>
+    </div>
+    <script src="DES.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const inputText = document.getElementById("inputText");
+        const keyInput = document.getElementById("keyInput");
+        const outputText = document.getElementById("outputText");
+        const encryptBtn = document.getElementById("encryptBtn");
+        const decryptBtn = document.getElementById("decryptBtn");
+        const closeBtn = document.getElementById("closeBtn");
+
+        encryptBtn.addEventListener("click", () => {
+          try {
+            const text = inputText.value.trim();
+            const key = keyInput.value.trim();
+            const formattedKey = formatKey(key, 16);
+            const encrypted = encrypt(text, formattedKey);
+            outputText.textContent = "Зашифрованный текст:\n" + encrypted;
+          } catch (err) {
+            alert("Ошибка: " + err.message);
+          }
+        });
+
+        decryptBtn.addEventListener("click", () => {
+          try {
+            const text = inputText.value.trim();
+            const key = keyInput.value.trim();
+            if (!text) throw new Error("Введите текст для дешифрования!");
+            const formattedKey = formatKey(key, 16);
+            const decrypted = decrypt(text, formattedKey);
+            outputText.textContent = "Расшифрованный текст:\n" + decrypted;
+          } catch (err) {
+            alert("Ошибка: " + err.message);
+          }
+        });
+
+        closeBtn.addEventListener("click", () => {});
+      });
+    </script>
+  </body>
+</html>
